@@ -51,6 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, copy) NSString *refreshToken;
 
 /**
+ The expiration date of the access token. Nil if no expiration was set.
+ */
+@property (nullable, readonly, nonatomic, copy) NSDate *expiration;
+
+/**
  Whether the OAuth credentials are expired.
  */
 @property (readonly, nonatomic, assign, getter = isExpired) BOOL expired;

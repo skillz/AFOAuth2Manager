@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#include <Security/SecBase.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -148,6 +149,18 @@ NS_ASSUME_NONNULL_BEGIN
  @return The retrieved OAuth credential.
  */
 + (nullable AFOAuthCredential *)retrieveCredentialWithIdentifier:(NSString *)identifier;
+
+/**
+ Retrieves the OAuth credential stored with the specified service identifier from the Keychain,
+ and optionally exposes the underlying `SecItemCopyMatching` status.
+
+ @param identifier The service identifier associated with the specified credential.
+ @param outKeychainStatus When non-NULL, receives the `SecItemCopyMatching` status.
+
+ @return The retrieved OAuth credential.
+ */
++ (nullable AFOAuthCredential *)retrieveCredentialWithIdentifier:(NSString *)identifier
+                                                keychainStatus:(OSStatus * _Nullable)outKeychainStatus;
 
 /**
  Deletes the OAuth credential stored with the specified service identifier from the Keychain.

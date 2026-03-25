@@ -148,12 +148,20 @@ static NSDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *identifi
 }
 
 + (AFOAuthCredential *)retrieveCredentialWithIdentifier:(NSString *)identifier {
+    return [self retrieveCredentialWithIdentifier:identifier keychainStatus:NULL];
+}
+
++ (nullable AFOAuthCredential *)retrieveCredentialWithIdentifier:(NSString *)identifier
+                                                  keychainStatus:(OSStatus *)outKeychainStatus {
     NSMutableDictionary *queryDictionary = [AFKeychainQueryDictionaryWithIdentifier(identifier) mutableCopy];
     queryDictionary[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
     queryDictionary[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
 
     CFDataRef result = nil;
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)queryDictionary, (CFTypeRef *)&result);
+    if (outKeychainStatus) {
+        *outKeychainStatus = status;
+    }
 
     if (status != errSecSuccess) {
         return nil;

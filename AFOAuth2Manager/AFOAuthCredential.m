@@ -147,6 +147,15 @@ static NSDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *identifi
     return (status == errSecSuccess);
 }
 
++ (BOOL)deleteAllCredentialsForOAuthService {
+    NSDictionary *query = @{
+        (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrService: kAFOAuth2CredentialServiceName,
+    };
+    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+    return (status == errSecSuccess || status == errSecItemNotFound);
+}
+
 + (AFOAuthCredential *)retrieveCredentialWithIdentifier:(NSString *)identifier {
     return [self retrieveCredentialWithIdentifier:identifier keychainStatus:NULL];
 }

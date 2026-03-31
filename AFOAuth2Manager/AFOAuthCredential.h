@@ -171,6 +171,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)deleteCredentialWithIdentifier:(NSString *)identifier;
 
+/**
+ Deletes every generic-password item stored for @c AFOAuthCredentialService (all user identifiers / environments).
+ Used when rebinding hybrid mode so stale OAuth blobs from prior installs cannot be selected.
+
+ @return YES if Keychain reported success or there were no matching items.
+ */
++ (BOOL)deleteAllCredentialsForOAuthService;
+
 @end
 
 NS_ASSUME_NONNULL_END
